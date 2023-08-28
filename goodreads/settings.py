@@ -1,25 +1,30 @@
 import os
+import environ
 from pathlib import Path
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s8yrq7*!_8cky98$@rc85cm_wx8+pyjvn4$m*$!-5!3cpef2jj'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = env('SECRET_KEY')
+
+DEBUG = env('DEBUG')
 
 
 
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = "users:login"
 
@@ -85,11 +90,11 @@ WSGI_APPLICATION = 'goodreads.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'goodreads',
-        'HOST': 'localhost',
+        'NAME': env('DB_NAME'),
+        'HOST': env('DB_HOST'),
         'PORT': '5432',
-        'USER': 'fathullo',
-        # 'PASSWORD': 'fz<2004>fz'
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD')
     }
 }
 
@@ -145,8 +150,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'fathullozayniddinov@gmail.com'
-EMAIL_HOST_PASSWORD = 'sidkanfhhxqrubht'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
