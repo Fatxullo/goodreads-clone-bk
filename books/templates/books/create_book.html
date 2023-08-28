@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Book Detail{% endblock %}
+
+
+
+{% block content %}
+    <h3 clas>Create Book</h3>
+    <br><br><br><br>
+
+    <div class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
+        <form class="com-form" id="algin-form" method="post" action="{% url 'books:create-book' %}" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            {{ create_book | crispy }}
+
+            <button class="btn btn-success my-3">Create</button>
+
+        </form>
+    </div>
+
+{% endblock %}

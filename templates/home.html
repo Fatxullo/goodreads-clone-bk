@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+
+
+
+
+
+{% block content %}
+
+<h3 style="margin: 0 0 0 10px;">All reviews</h3>
+
+{% for review in page_obj %}
+  <div class="container mt-5">
+    <div class="card" style="width: 600px;">
+        <div class="card-header" >
+          <div class="d-flex align-items-center">
+            <img src="{{ review.user.profile_picture.url }}" class="rounded-circle me-3" width="40" height="40" alt="Profile Picture">
+            <p style="font-size: 18px; font-weight: 500;" class="mb-0">{{ review.user.username }}</p>
+          </div>
+        </div>
+
+        <div style="width: 100%; background-color:rgb(216, 216, 217)">
+          <img src="{{ review.book.cover_picture.url }}" style="width: 300px; margin:10px 10px;" alt="Post Image">
+        </div>
+
+        <div class="card-body p-2" style="background-color: #F7F7F7;">
+            <p class="mt-1">
+                <strong>john_doe</strong>: {{ review.comment | truncatechars:300 }}
+            </p>
+            <div style="font-size: 16px; color:grey; margin:0 0 10px 5px">At: {{ review.created_at | date:'M, d, Y' }}</div>
+        </div>
+    </div>
+  </div>
+{% endfor %}
+
+
+
+<nav style="margin: 50px 0 0 0;">
+
+  <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link bg-dark text-light" href="?page=1">&laquo; first</a></li>
+          <li class="page-item"><a class="page-link bg-dark text-light" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+      {% endif %}
+
+          <li class="page-item active" aria-current="page"><a href="#" class="page-link bg-dark">{{ page_obj.number }}</a></li>
+
+      {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link bg-dark text-light" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+          <li class="page-item"><a class="page-link bg-dark text-light" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+      {% endif %}
+  </ul>
+
+</nav>
+
+
+
+
+
+
+{% endblock %}
